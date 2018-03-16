@@ -3,29 +3,29 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://github.com/vinsflyfish/vinsflyfish.github.io/posts/first-article/</loc>
+    <loc>https://vinsflyfish.github.io/posts/first-article/</loc>
     <lastmod>2018-03-16T09:57:55+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://github.com/vinsflyfish/vinsflyfish.github.io/categories/</loc>
+    <loc>https://vinsflyfish.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://github.com/vinsflyfish/vinsflyfish.github.io/</loc>
-    <lastmod>2018-03-16T09:57:55+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://github.com/vinsflyfish/vinsflyfish.github.io/posts/</loc>
+    <loc>https://vinsflyfish.github.io/</loc>
     <lastmod>2018-03-16T09:57:55+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://github.com/vinsflyfish/vinsflyfish.github.io/tags/</loc>
+    <loc>https://vinsflyfish.github.io/posts/</loc>
+    <lastmod>2018-03-16T09:57:55+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://vinsflyfish.github.io/tags/</loc>
     <priority>0</priority>
   </url>
   
