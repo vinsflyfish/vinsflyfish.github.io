@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://vinsflyfish.github.io/posts/thinking-in-libco/</loc>
+    <lastmod>2018-04-26T18:58:35+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://vinsflyfish.github.io/posts/first-article/</loc>
     <lastmod>2018-03-16T09:57:55+08:00</lastmod>
   </url>
@@ -14,13 +19,13 @@
   
   <url>
     <loc>https://vinsflyfish.github.io/</loc>
-    <lastmod>2018-03-16T09:57:55+08:00</lastmod>
+    <lastmod>2018-04-26T18:58:35+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://vinsflyfish.github.io/posts/</loc>
-    <lastmod>2018-03-16T09:57:55+08:00</lastmod>
+    <lastmod>2018-04-26T18:58:35+08:00</lastmod>
     <priority>0</priority>
   </url>
   
