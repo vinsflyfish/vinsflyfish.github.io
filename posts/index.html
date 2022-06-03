@@ -1,137 +1,160 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html class="no-js" lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Posts</title>
+	<title>Posts - Lufy&#39;s Blog</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta name="generator" content="Hugo 0.40.1" />
-	<meta property="og:title" content="Posts" />
-<meta property="og:description" content=" 一些杂乱的经验" />
+		<meta property="og:title" content="Posts" />
+<meta property="og:description" content="记录一些杂乱的思考和总结" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://vinsflyfish.github.io/posts/" />
+<meta property="og:url" content="http://vinsflyfish.github.io/posts/" />
 
 
-
-<meta property="og:updated_time" content="2018-04-26T18:58:35&#43;08:00"/>
-
-
-
-
-
-
-
-
-
-
-	
+		<meta itemprop="name" content="Posts">
+<meta itemprop="description" content="记录一些杂乱的思考和总结">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
-	<link rel="alternate" type="application/rss" href="/posts/index.xml">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
-	<link rel="stylesheet" href="/css/style.css">
-	<script type="text/javascript" src="/js/scripts.js"></script>
-	<link rel="shortcut icon" href="/favicon.ico">
-	
-</head>
-<body class="body body-right-sidebar">
-	<div class="container container-outer">
-		<header class="header">
-			<div class="container container-inner">
-				<div class="logo" role="banner">
-					<a class="logo__link" href="/" title="Lufy&#39;s Blog" rel="home">
-						<div class="logo__title">Lufy&#39;s Blog</div>
-						<div class="logo__tagline">独立的思考着，尝试着能看到一点点未来</div>
-					</a>
-				</div>
-			</div>
-			<div class="divider"></div>
-		</header>
-		<div class="wrapper clearfix">
 
-	<main class="main list content" role="main">
-		<header class="page-header">
-			<h1 class="page-header__title">Posts</h1>
-		</header><article class="list__item post">
-	<div class="list__content clearfix">
-		<header class="list__header">
-			<h3 class="list__title post__title ">
-				<a href="/posts/thinking-in-libco/" rel="bookmark">Libco 协程栈的切换理解</a>
-			</h3><div class="list__meta meta">
-<svg class="icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
-<time class="post__meta-date meta-date" datetime="2018-04-26T18:58:35">2018-04-26</time></div>
-		</header>
-		<div class="list__excerpt post__content">
-			libco协程切换原理解读及简要使用 以前看过libco一点源码，最近组里面分享了一次协程的原理。花了点功夫，借助一点网上的资料，算是摸清楚了libco协程切换的来龙去脉。libco除了协程的切换还涉及系统hook以及相关工程的封装，篇幅及时间限制，这里不涉及。本篇主要把协程切换的来龙去脉以及原理从个人理解角度介绍下。明白和能说出来讲清楚是两种不同的理解程度，这也是本文的主要目的。
-函数调用的原理 linux 程序内存布局 传统linux程序（32bit)拥有4G的虚拟内存区域，高1G的区域供内核使用，剩余的3G内存供程序使用。按段划分，主要分程序段（text segement)、数据段、BSS段。BSS段用于未初始化的静态变量的初始化（0值初始化）。栈从高到低地址增长。堆从低到高增长。栈和堆的这两种不同的地址增长方向，需要关注下，后面协程切换中就涉及到该布局的不同。对内存布局有兴趣可以参看这篇文章程序内存布局。
-栈帧定义  In C and modern CPU design conventions, the stack frame is a chunk of memory, allocated from the stack, at run-time, each time a function is called, to store its automatic variables. Hence nested or recursive calls to the same function, each successively obtain their own separate frames.
-Physically, a function&rsquo;s stack frame is the area between the addresses contained in esp, the stack pointer, and ebp, the frame pointer (base pointer in Intel terminology).
-		</div>
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="alternate" type="application/rss+xml" href="/posts/index.xml" title="Lufy's Blog">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="Lufy&#39;s Blog" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">Lufy&#39;s Blog</div>
+					<div class="logo__tagline">独立的思考着，尝试着能看到一点点未来</div>
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main list" role="main">
+	<header class="main__header">
+		<h1 class="main__title">Posts</h1>
+	</header><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/think-about-cooperate/" rel="bookmark">
+			复杂系统维护和开发一点思考
+			</a>
+		</h2>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		思考过程尽量避免无关紧要的case，以及短期限制因素。
+大型系统开发，改动和设计如果急于赶工期，会出现某个人的改动会带来大的问题，问题的根源可能很简单，但是问题扩散的比较远。 团队管理如何降低这种风险，同时为项目降低风险。如果项目里出现过于自我的人，一旦“偷偷的”修改了某处核心的流程， 而且没有经过充分的测试验证或者没有覆盖好当前的业务场景，那么这一次的修改是相当可怕的。
+实际上我们偶尔心血来潮，看到过去写的幼稚代码，顺手给改掉也时有发生。 对于已经足够庞杂的系统，这种习惯可能是致命的。 过去以往某个改动，要经过无数个人的review，一直觉得麻烦，甚至产生了能不改就不改这样怕麻烦的隐藏心里。
+在发现其他人的问题的时候，看到了另外一种麻烦。绕过流程和评估的改动，会带来更大的麻烦。 偷工减料是根本原因，但是如何衡量和避免偷工减料，当前我的一个反思点是：如果流程和规范让大家记住了，征求意见的重要性，这样即使偷懒，其他人贡献的意见也能降低这种风险。
+几点总结：
+该自测的自测到位，即使它耗费时间。 自测前，不要着急自测，先写下case，挠头想case，尽量想corner，这点也是面试算法或系统设计往往考察的，而实际项目中还是得刻意的锻炼才能深刻。 尽量征求意见，以表格的形式收集每个人的意见，先给出大概的类别方向，在此基础上收集更有效率。尽量想多种方法，进行对比，不要设定了一个然后自己钻牛角尖。一定要写下几点已有方案不好的地方，来形成反思 目前的团队，事情积压的非常严重，但是代码质量出问题会非常严厉。就需要适当的厚着脸皮要时间，把事情做好 充分的review思考，逻辑走查，脑海里面去跑代码，看看是否正常。耐心不够的时候，多看几遍 
 	</div>
 </article><article class="list__item post">
-	<div class="list__content clearfix">
-		<header class="list__header">
-			<h3 class="list__title post__title ">
-				<a href="/posts/first-article/" rel="bookmark">第一篇博客开启了~</a>
-			</h3><div class="list__meta meta">
-<svg class="icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
-<time class="post__meta-date meta-date" datetime="2018-03-16T09:57:55">2018-03-16</time></div>
-		</header>
-		<div class="list__excerpt post__content">
-			开始维护记录最近的学习过程，博客的目的在于加深理解。保持学习，保持更新。或多或少。
-		</div>
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/thinking-in-libco/" rel="bookmark">
+			Libco 协程栈的切换理解
+			</a>
+		</h2>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		libco协程切换原理解读及简要使用 以前看过libco一点源码，最近组里面分享了一次协程的原理。花了点功夫，借助一点网上的资料，算是摸清楚了libco协程切换的来龙去脉。libco除了协程的切换还涉及系统hook以及相关工程的封装，篇幅及时间限制，这里不涉及。本篇主要把协程切换的来龙去脉以及原理从个人理解角度介绍下。明白和能说出来讲清楚是两种不同的理解程度，这也是本文的主要目的。
+函数调用的原理 linux 程序内存布局 传统linux程序（32bit)拥有4G的虚拟内存区域，高1G的区域供内核使用，剩余的3G内存供程序使用。按段划分，主要分程序段（text segement)、数据段、BSS段。BSS段用于未初始化的静态变量的初始化（0值初始化）。栈从高到低地址增长。堆从低到高增长。栈和堆的这两种不同的地址增长方向，需要关注下，后面协程切换中就涉及到该布局的不同。对内存布局有兴趣可以参看这篇文章程序内存布局。
+栈帧定义 In C and modern CPU design conventions, the stack frame is a chunk of memory, allocated from the stack, at run-time, each time a function is called, to store its automatic variables. Hence nested or recursive calls to the same function, each successively obtain their own separate frames.
+Physically, a function&rsquo;s stack frame is the area between the addresses contained in esp, the stack pointer, and ebp, the frame pointer (base pointer in Intel terminology).
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/thinking-in-libco/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/first-article/" rel="bookmark">
+			第一篇博客开启了~
+			</a>
+		</h2>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		开始维护记录最近的学习过程，博客的目的在于加深理解。保持学习，保持更新。或多或少。
 	</div>
 </article>
+</main>
 
-		
-	</main>
 
-<aside class="sidebar">
-	
-	
+			</div>
+			
+<aside class="sidebar sidebar--left"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="http://vinsflyfish.github.io/" />
+	</form>
+</div>
 <div class="widget-recent widget">
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/think-about-cooperate/">复杂系统维护和开发一点思考</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/thinking-in-libco/">Libco 协程栈的切换理解</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/first-article/">第一篇博客开启了~</a></li>
 		</ul>
 	</div>
 </div>
-	
-	
 <div class="widget-social widget">
 	<h4 class="widget-social__title widget__title">Social</h4>
 	<div class="widget-social__content widget__content">
 		<div class="widget-social__item widget__item">
 			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/vinsflyfish" target="_blank">
-				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
 				<span>GitHub</span>
 			</a>
 		</div>
 		<div class="widget-social__item widget__item">
 			<a class="widget-social__link widget__link btn" title="Email" href="mailto:vins.napoleon@gmail.com">
-				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<svg class="widget-social__link-icon icon icon-mail" width="24" height="24" viewBox="0 0 416 288"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
 				<span>vins.napoleon@gmail.com</span>
 			</a>
 		</div>
+
+		
 	</div>
 </div>
-	
 </aside>
-	</div>
+		</div>
 		<footer class="footer">
-			<div class="container container-inner">
-				<div class="footer__copyright">&copy; 2018 Lufy&#39;s Blog. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span></div>
-			</div>
-		</footer>
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2022 Lufy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
 	</div>
-
-<script>
-	var navigation = responsiveNav(".menu", {
-		navClass: "menu--collapse",
-	});
-</script>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
 </body>
 </html>
