@@ -4,22 +4,17 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>第一篇博客开启了~ - Lufy&#39;s Blog</title>
+	<title>随想 - Lufy&#39;s Blog</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="第一篇博客开启了~" />
-<meta property="og:description" content="开始维护记录最近的学习过程，博客的目的在于加深理解。保持学习，保持更新。或多或少。" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://vinsflyfish.github.io/posts/first-article/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-03-16T09:57:55+08:00" />
-<meta property="article:modified_time" content="2018-03-16T09:57:55+08:00" />
+		<meta property="og:title" content="随想" />
+<meta property="og:description" content="记录一些杂乱的思考和总结" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://vinsflyfish.github.io/tags/%E9%9A%8F%E6%83%B3/" />
 
 
-		<meta itemprop="name" content="第一篇博客开启了~">
-<meta itemprop="description" content="开始维护记录最近的学习过程，博客的目的在于加深理解。保持学习，保持更新。或多或少。"><meta itemprop="datePublished" content="2018-03-16T09:57:55+08:00" />
-<meta itemprop="dateModified" content="2018-03-16T09:57:55+08:00" />
-<meta itemprop="wordCount" content="1">
-<meta itemprop="keywords" content="其它," />
+		<meta itemprop="name" content="随想">
+<meta itemprop="description" content="记录一些杂乱的思考和总结">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -27,6 +22,7 @@
 
 	<link rel="stylesheet" href="/css/style.css">
 	
+	<link rel="alternate" type="application/rss+xml" href="/tags/%E9%9A%8F%E6%83%B3/index.xml" title="Lufy's Blog">
 
 	<link rel="shortcut icon" href="/favicon.ico">
 		
@@ -50,43 +46,34 @@
 		<div class="wrapper flex">
 			<div class="primary">
 			
-<main class="main" role="main">
-	<article class="post">
-		<header class="post__header">
-			<h1 class="post__title">第一篇博客开启了~</h1>
-			
-		</header>
-		<div class="content post__content clearfix">
-			<p>开始维护记录最近的学习过程，博客的目的在于加深理解。保持学习，保持更新。或多或少。</p>
-
-		</div>
-		<footer class="post__footer">
-			
-<div class="post__tags tags clearfix">
-	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
-	<ul class="tags__list">
-		<li class="tags__item">
-			<a class="tags__link btn" href="/tags/%E5%85%B6%E5%AE%83/" rel="tag">其它</a>
-		</li>
-	</ul>
-</div>
-		</footer>
-	</article>
+<main class="main list" role="main">
+	<header class="main__header">
+		<h1 class="main__title">随想</h1>
+	</header><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/think-about-cooperate/" rel="bookmark">
+			复杂系统维护和开发一点思考
+			</a>
+		</h2>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		思考过程尽量避免无关紧要的case，以及短期限制因素。
+大型系统开发，改动和设计如果急于赶工期，会出现某个人的改动会带来大的问题，问题的根源可能很简单，但是问题扩散的比较远。 团队管理如何降低这种风险，同时为项目降低风险。如果项目里出现过于自我的人，一旦“偷偷的”修改了某处核心的流程， 而且没有经过充分的测试验证或者没有覆盖好当前的业务场景，那么这一次的修改是相当可怕的。
+实际上我们偶尔心血来潮，看到过去写的幼稚代码，顺手给改掉也时有发生。 对于已经足够庞杂的系统，这种习惯可能是致命的。 过去以往某个改动，要经过无数个人的review，一直觉得麻烦，甚至产生了能不改就不改这样怕麻烦的隐藏心里。
+在发现其他人的问题的时候，看到了另外一种麻烦。绕过流程和评估的改动，会带来更大的麻烦。 偷工减料是根本原因，但是如何衡量和避免偷工减料，当前我的一个反思点是：如果流程和规范让大家记住了，征求意见的重要性，这样即使偷懒，其他人贡献的意见也能降低这种风险。
+几点总结：
+该自测的自测到位，即使它耗费时间。 自测前，不要着急自测，先写下case，挠头想case，尽量想corner，这点也是面试算法或系统设计往往考察的，而实际项目中还是得刻意的锻炼才能深刻。 尽量征求意见，以表格的形式收集每个人的意见，先给出大概的类别方向，在此基础上收集更有效率。尽量想多种方法，进行对比，不要设定了一个然后自己钻牛角尖。一定要写下几点已有方案不好的地方，来形成反思 目前的团队，事情积压的非常严重，但是代码质量出问题会非常严厉。就需要适当的厚着脸皮要时间，把事情做好 充分的review思考，逻辑走查，脑海里面去跑代码，看看是否正常。耐心不够的时候，多看几遍 
+	</div>
+</article>
 </main>
 
 
-<nav class="pager flex">
-	<div class="pager__item pager__item--next">
-		<a class="pager__link" href="/posts/thinking-in-libco/" rel="next">
-			<span class="pager__subtitle">Next&thinsp;»</span>
-			<p class="pager__title">Libco 协程栈的切换理解</p>
-		</a>
-	</div>
-</nav>
-
-
 			</div>
-			<aside class="sidebar"><div class="widget-search widget">
+			
+<aside class="sidebar sidebar--left"><div class="widget-search widget">
 	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
 		<label>
 			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">

@@ -25,7 +25,7 @@ Physically, a function&rsquo;s stack frame is the area between the addresses con
 Physically, a function&rsquo;s stack frame is the area between the addresses contained in esp, the stack pointer, and ebp, the frame pointer (base pointer in Intel terminology)."><meta itemprop="datePublished" content="2018-04-26T18:58:35+08:00" />
 <meta itemprop="dateModified" content="2018-04-26T18:58:35+08:00" />
 <meta itemprop="wordCount" content="912">
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="协程," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -62,35 +62,7 @@ Physically, a function&rsquo;s stack frame is the area between the addresses con
 			<h1 class="post__title">Libco 协程栈的切换理解</h1>
 			
 		</header>
-		
-<div class="post__toc toc">
-	<div class="toc__title">Page content</div>
-	<div class="toc__menu">
-		<nav id="TableOfContents">
-  <ul>
-    <li><a href="#函数调用的原理">函数调用的原理</a>
-      <ul>
-        <li><a href="#linux-程序内存布局">linux 程序内存布局</a></li>
-        <li><a href="#栈帧定义">栈帧定义</a></li>
-      </ul>
-    </li>
-    <li><a href="#libco协程切换汇编代码解析">libco协程切换汇编代码解析</a>
-      <ul>
-        <li><a href="#栈空间16直接对齐的哲学">栈空间16直接对齐的哲学</a></li>
-      </ul>
-    </li>
-    <li><a href="#协程切换思考">协程切换思考</a>
-      <ul>
-        <li><a href="#main---pending">main -&gt; pending</a></li>
-        <li><a href="#pending---main">pending -&gt; main</a></li>
-        <li><a href="#贡献一个helloworld">贡献一个helloworld</a></li>
-      </ul>
-    </li>
-    <li><a href="#总结">总结</a></li>
-  </ul>
-</nav>
-	</div>
-</div><div class="content post__content clearfix">
+		<div class="content post__content clearfix">
 			<h1 id="libco协程切换原理解读及简要使用">libco协程切换原理解读及简要使用</h1>
 <p>以前看过libco一点源码，最近组里面分享了一次协程的原理。花了点功夫，借助一点网上的资料，算是摸清楚了libco协程切换的来龙去脉。libco除了协程的切换还涉及系统hook以及相关工程的封装，篇幅及时间限制，这里不涉及。本篇主要把协程切换的来龙去脉以及原理从个人理解角度介绍下。明白和能说出来讲清楚是两种不同的理解程度，这也是本文的主要目的。</p>
 <h2 id="函数调用的原理">函数调用的原理</h2>
@@ -421,6 +393,17 @@ int main(){
 <p>(因为懒，先发在内网上了，今天才挪出来，不涉及内部任何信息，纯粹个人学习心得)</p>
 
 		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E5%8D%8F%E7%A8%8B/" rel="tag">协程</a>
+		</li>
+	</ul>
+</div>
+		</footer>
 	</article>
 </main>
 
@@ -459,6 +442,14 @@ int main(){
 			<li class="widget__item"><a class="widget__link" href="/posts/thinking-in-libco/">Libco 协程栈的切换理解</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/first-article/">第一篇博客开启了~</a></li>
 		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%85%B6%E5%AE%83/" title="其它">其它 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8D%8F%E7%A8%8B/" title="协程">协程 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%9A%8F%E6%83%B3/" title="随想">随想 (1)</a>
 	</div>
 </div>
 <div class="widget-social widget">
