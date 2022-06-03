@@ -1,37 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://vinsflyfish.github.io/posts/thinking-in-libco/</loc>
     <lastmod>2018-04-26T18:58:35+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vinsflyfish.github.io/posts/first-article/</loc>
-    <lastmod>2018-03-16T09:57:55+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vinsflyfish.github.io/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://vinsflyfish.github.io/</loc>
     <lastmod>2018-04-26T18:58:35+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://vinsflyfish.github.io/posts/</loc>
     <lastmod>2018-04-26T18:58:35+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>https://vinsflyfish.github.io/posts/first-article/</loc>
+    <lastmod>2018-03-16T09:57:55+08:00</lastmod>
+  </url><url>
+    <loc>https://vinsflyfish.github.io/posts/%E6%94%B6%E9%9B%86%E7%9F%A5%E8%AF%86%E6%88%96%E8%80%85%E8%87%AA%E6%88%91%E7%AD%9B%E9%80%89%E5%AF%B9%E6%AF%94/</loc>
+  </url><url>
+    <loc>https://vinsflyfish.github.io/categories/</loc>
+  </url><url>
     <loc>https://vinsflyfish.github.io/tags/</loc>
-    <priority>0</priority>
   </url>
-  
 </urlset>
