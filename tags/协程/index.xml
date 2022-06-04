@@ -13,10 +13,7 @@
       <pubDate>Thu, 26 Apr 2018 18:58:35 +0800</pubDate>
       
       <guid>http://vinsflyfish.github.io/posts/thinking-in-libco/</guid>
-      <description>libco协程切换原理解读及简要使用 以前看过libco一点源码，最近组里面分享了一次协程的原理。花了点功夫，借助一点网上的资料，算是摸清楚了libco协程切换的来龙去脉。libco除了协程的切换还涉及系统hook以及相关工程的封装，篇幅及时间限制，这里不涉及。本篇主要把协程切换的来龙去脉以及原理从个人理解角度介绍下。明白和能说出来讲清楚是两种不同的理解程度，这也是本文的主要目的。
-函数调用的原理 linux 程序内存布局 传统linux程序（32bit)拥有4G的虚拟内存区域，高1G的区域供内核使用，剩余的3G内存供程序使用。按段划分，主要分程序段（text segement)、数据段、BSS段。BSS段用于未初始化的静态变量的初始化（0值初始化）。栈从高到低地址增长。堆从低到高增长。栈和堆的这两种不同的地址增长方向，需要关注下，后面协程切换中就涉及到该布局的不同。对内存布局有兴趣可以参看这篇文章程序内存布局。
-栈帧定义 In C and modern CPU design conventions, the stack frame is a chunk of memory, allocated from the stack, at run-time, each time a function is called, to store its automatic variables. Hence nested or recursive calls to the same function, each successively obtain their own separate frames.
-Physically, a function&amp;rsquo;s stack frame is the area between the addresses contained in esp, the stack pointer, and ebp, the frame pointer (base pointer in Intel terminology).</description>
+      <description>libco协程切换原理解读及简要使用 以前看过libco一点源码，最近组里面分享了一次协程的原理。花了点功夫，借助一点网上的资料，算是摸清楚了libco协程切换的来龙去脉。libco除了协程的切换还涉及系统hook以及相关工程的封装，篇幅及时间限制，这里不涉及。本篇主要把协程切换的来龙去脉以及原理从个人理解角度介绍下。明白和能说出来讲清楚是两种不同的理解程度，这也是本文的主要目的。 函数调用的原理 linux 程序内存布局 传统linux程序（32bit)拥有4G的虚拟内存区域，高1G的区域供内核使用，剩余的3G内存供程序使用。按段划分，主要分程序段（text segement)、数据段、BSS段。BSS段用于未</description>
     </item>
     
   </channel>

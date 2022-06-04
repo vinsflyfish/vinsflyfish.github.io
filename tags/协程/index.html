@@ -26,6 +26,17 @@
 
 	<link rel="shortcut icon" href="/favicon.ico">
 		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-131330078-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
 </head>
 <body class="body">
 	<div class="container container--outer">
@@ -40,7 +51,36 @@
 				</div>
 		</a>
 	</div>
-		<div class="divider"></div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/posts/">
+				
+				<span class="menu__text">技术</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/ideas/">
+				
+				<span class="menu__text">想法</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">关于</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
 	</div>
 </header>
 		<div class="wrapper flex">
@@ -57,13 +97,12 @@
 			Libco 协程栈的切换理解
 			</a>
 		</h2>
-		
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-04-26T18:58:35&#43;08:00">2018-04-26</time></div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		libco协程切换原理解读及简要使用 以前看过libco一点源码，最近组里面分享了一次协程的原理。花了点功夫，借助一点网上的资料，算是摸清楚了libco协程切换的来龙去脉。libco除了协程的切换还涉及系统hook以及相关工程的封装，篇幅及时间限制，这里不涉及。本篇主要把协程切换的来龙去脉以及原理从个人理解角度介绍下。明白和能说出来讲清楚是两种不同的理解程度，这也是本文的主要目的。
-函数调用的原理 linux 程序内存布局 传统linux程序（32bit)拥有4G的虚拟内存区域，高1G的区域供内核使用，剩余的3G内存供程序使用。按段划分，主要分程序段（text segement)、数据段、BSS段。BSS段用于未初始化的静态变量的初始化（0值初始化）。栈从高到低地址增长。堆从低到高增长。栈和堆的这两种不同的地址增长方向，需要关注下，后面协程切换中就涉及到该布局的不同。对内存布局有兴趣可以参看这篇文章程序内存布局。
-栈帧定义 In C and modern CPU design conventions, the stack frame is a chunk of memory, allocated from the stack, at run-time, each time a function is called, to store its automatic variables. Hence nested or recursive calls to the same function, each successively obtain their own separate frames.
-Physically, a function&rsquo;s stack frame is the area between the addresses contained in esp, the stack pointer, and ebp, the frame pointer (base pointer in Intel terminology).
+		libco协程切换原理解读及简要使用 以前看过libco一点源码，最近组里面分享了一次协程的原理。花了点功夫，借助一点网上的资料，算是摸清楚了libco协程切换的来龙去脉。libco除了协程的切换还涉及系统hook以及相关工程的封装，篇幅及时间限制，这里不涉及。本篇主要把协程切换的来龙去脉以及原理从个人理解角度介绍下。明白和能说出来讲清楚是两种不同的理解程度，这也是本文的主要目的。 函数调用的原理 linux 程序内存布局 传统linux程序（32bit)拥有4G的虚拟内存区域，高1G的区域供内核使用，剩余的3G内存供程序使用。按段划分，主要分程序段（text segement)、数据段、BSS段。BSS段用于未
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/thinking-in-libco/">Read more…</a>
@@ -74,7 +113,7 @@ Physically, a function&rsquo;s stack frame is the area between the addresses con
 
 			</div>
 			
-<aside class="sidebar sidebar--left"><div class="widget-search widget">
+<aside class="sidebar"><div class="widget-search widget">
 	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
 		<label>
 			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
@@ -87,7 +126,8 @@ Physically, a function&rsquo;s stack frame is the area between the addresses con
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/posts/think-about-cooperate/">复杂系统维护和开发一点思考</a></li>
+			<li class="widget__item"><a class="widget__link" href="/ideas/efficient-study/">最近的一些关于分享和思考的一些想法</a></li>
+			<li class="widget__item"><a class="widget__link" href="/ideas/think-about-cooperate/">复杂系统维护和开发一点思考</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/thinking-in-libco/">Libco 协程栈的切换理解</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/first-article/">第一篇博客开启了~</a></li>
 		</ul>
@@ -96,7 +136,7 @@ Physically, a function&rsquo;s stack frame is the area between the addresses con
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%85%B6%E5%AE%83/" title="其它">其它 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%85%B6%E5%AE%83/" title="其它">其它 (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8D%8F%E7%A8%8B/" title="协程">协程 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%9A%8F%E6%83%B3/" title="随想">随想 (1)</a>
 	</div>

@@ -6,31 +6,14 @@
     <description>Recent content in Posts on Lufy&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 03 Jun 2022 10:37:18 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>复杂系统维护和开发一点思考</title>
-      <link>http://vinsflyfish.github.io/posts/think-about-cooperate/</link>
-      <pubDate>Fri, 03 Jun 2022 10:37:18 +0800</pubDate>
-      
-      <guid>http://vinsflyfish.github.io/posts/think-about-cooperate/</guid>
-      <description>思考过程尽量避免无关紧要的case，以及短期限制因素。
-大型系统开发，改动和设计如果急于赶工期，会出现某个人的改动会带来大的问题，问题的根源可能很简单，但是问题扩散的比较远。 团队管理如何降低这种风险，同时为项目降低风险。如果项目里出现过于自我的人，一旦“偷偷的”修改了某处核心的流程， 而且没有经过充分的测试验证或者没有覆盖好当前的业务场景，那么这一次的修改是相当可怕的。
-实际上我们偶尔心血来潮，看到过去写的幼稚代码，顺手给改掉也时有发生。 对于已经足够庞杂的系统，这种习惯可能是致命的。 过去以往某个改动，要经过无数个人的review，一直觉得麻烦，甚至产生了能不改就不改这样怕麻烦的隐藏心里。
-在发现其他人的问题的时候，看到了另外一种麻烦。绕过流程和评估的改动，会带来更大的麻烦。 偷工减料是根本原因，但是如何衡量和避免偷工减料，当前我的一个反思点是：如果流程和规范让大家记住了，征求意见的重要性，这样即使偷懒，其他人贡献的意见也能降低这种风险。
-几点总结：
-该自测的自测到位，即使它耗费时间。 自测前，不要着急自测，先写下case，挠头想case，尽量想corner，这点也是面试算法或系统设计往往考察的，而实际项目中还是得刻意的锻炼才能深刻。 尽量征求意见，以表格的形式收集每个人的意见，先给出大概的类别方向，在此基础上收集更有效率。尽量想多种方法，进行对比，不要设定了一个然后自己钻牛角尖。一定要写下几点已有方案不好的地方，来形成反思 目前的团队，事情积压的非常严重，但是代码质量出问题会非常严厉。就需要适当的厚着脸皮要时间，把事情做好 充分的review思考，逻辑走查，脑海里面去跑代码，看看是否正常。耐心不够的时候，多看几遍 </description>
-    </item>
-    
+    <lastBuildDate>Thu, 26 Apr 2018 18:58:35 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Libco 协程栈的切换理解</title>
       <link>http://vinsflyfish.github.io/posts/thinking-in-libco/</link>
       <pubDate>Thu, 26 Apr 2018 18:58:35 +0800</pubDate>
       
       <guid>http://vinsflyfish.github.io/posts/thinking-in-libco/</guid>
-      <description>libco协程切换原理解读及简要使用 以前看过libco一点源码，最近组里面分享了一次协程的原理。花了点功夫，借助一点网上的资料，算是摸清楚了libco协程切换的来龙去脉。libco除了协程的切换还涉及系统hook以及相关工程的封装，篇幅及时间限制，这里不涉及。本篇主要把协程切换的来龙去脉以及原理从个人理解角度介绍下。明白和能说出来讲清楚是两种不同的理解程度，这也是本文的主要目的。
-函数调用的原理 linux 程序内存布局 传统linux程序（32bit)拥有4G的虚拟内存区域，高1G的区域供内核使用，剩余的3G内存供程序使用。按段划分，主要分程序段（text segement)、数据段、BSS段。BSS段用于未初始化的静态变量的初始化（0值初始化）。栈从高到低地址增长。堆从低到高增长。栈和堆的这两种不同的地址增长方向，需要关注下，后面协程切换中就涉及到该布局的不同。对内存布局有兴趣可以参看这篇文章程序内存布局。
-栈帧定义 In C and modern CPU design conventions, the stack frame is a chunk of memory, allocated from the stack, at run-time, each time a function is called, to store its automatic variables. Hence nested or recursive calls to the same function, each successively obtain their own separate frames.
-Physically, a function&amp;rsquo;s stack frame is the area between the addresses contained in esp, the stack pointer, and ebp, the frame pointer (base pointer in Intel terminology).</description>
+      <description>libco协程切换原理解读及简要使用 以前看过libco一点源码，最近组里面分享了一次协程的原理。花了点功夫，借助一点网上的资料，算是摸清楚了libco协程切换的来龙去脉。libco除了协程的切换还涉及系统hook以及相关工程的封装，篇幅及时间限制，这里不涉及。本篇主要把协程切换的来龙去脉以及原理从个人理解角度介绍下。明白和能说出来讲清楚是两种不同的理解程度，这也是本文的主要目的。 函数调用的原理 linux 程序内存布局 传统linux程序（32bit)拥有4G的虚拟内存区域，高1G的区域供内核使用，剩余的3G内存供程序使用。按段划分，主要分程序段（text segement)、数据段、BSS段。BSS段用于未</description>
     </item>
     
     <item>

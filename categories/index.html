@@ -26,6 +26,17 @@
 
 	<link rel="shortcut icon" href="/favicon.ico">
 		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-131330078-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
 </head>
 <body class="body">
 	<div class="container container--outer">
@@ -40,7 +51,36 @@
 				</div>
 		</a>
 	</div>
-		<div class="divider"></div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/posts/">
+				
+				<span class="menu__text">技术</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/ideas/">
+				
+				<span class="menu__text">想法</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">关于</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
 	</div>
 </header>
 		<div class="wrapper flex">
@@ -55,7 +95,7 @@
 
 			</div>
 			
-<aside class="sidebar sidebar--left"><div class="widget-search widget">
+<aside class="sidebar"><div class="widget-search widget">
 	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
 		<label>
 			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
@@ -68,7 +108,8 @@
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/posts/think-about-cooperate/">复杂系统维护和开发一点思考</a></li>
+			<li class="widget__item"><a class="widget__link" href="/ideas/efficient-study/">最近的一些关于分享和思考的一些想法</a></li>
+			<li class="widget__item"><a class="widget__link" href="/ideas/think-about-cooperate/">复杂系统维护和开发一点思考</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/thinking-in-libco/">Libco 协程栈的切换理解</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/first-article/">第一篇博客开启了~</a></li>
 		</ul>
@@ -77,7 +118,7 @@
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%85%B6%E5%AE%83/" title="其它">其它 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%85%B6%E5%AE%83/" title="其它">其它 (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8D%8F%E7%A8%8B/" title="协程">协程 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%9A%8F%E6%83%B3/" title="随想">随想 (1)</a>
 	</div>
