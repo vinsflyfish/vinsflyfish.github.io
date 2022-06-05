@@ -18,7 +18,7 @@
 		<meta itemprop="name" content="Redis 6.0之后的多线程实现源码分析">
 <meta itemprop="description" content="本文主要是介绍redis多线程部分的理解，很久以前看过单线程版本的实现，最近看了几篇文章介绍多线程的原理。有些文章只是讲了些理由，看着有点模糊，对多线程为什么能提升效率，以及准确的执行点还是有点模糊。本文主要从源码阅读的角度，来梳理下其调用链，以及根据代码实现来分析多线程的实现原理和背后的设计。"><meta itemprop="datePublished" content="2022-06-05T13:05:42+08:00" />
 <meta itemprop="dateModified" content="2022-06-05T13:05:42+08:00" />
-<meta itemprop="wordCount" content="2013">
+<meta itemprop="wordCount" content="2515">
 <meta itemprop="keywords" content="" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -104,7 +104,6 @@ if (!doNotTrack) {
 	<div class="toc__menu">
 		<nav id="TableOfContents">
   <ul>
-    <li><a href="#本文要梳理清楚这几个问题">本文要梳理清楚这几个问题</a></li>
     <li><a href="#多线程批量处理源码分析">多线程批量处理源码分析</a>
       <ul>
         <li><a href="#beforesleep-缩减版代码">beforesleep 缩减版代码</a></li>
@@ -115,20 +114,13 @@ if (!doNotTrack) {
       </ul>
     </li>
     <li><a href="#pending_readwrite-不加锁的设计">pending_read/write 不加锁的设计</a></li>
-    <li><a href="#线程模型图">线程模型图</a></li>
-    <li><a href="#多线程使用场景">多线程使用场景</a></li>
-    <li><a href="#性能参数">性能参数</a></li>
+    <li><a href="#iothreadmain-实现补充">IOThreadMain 实现补充</a></li>
+    <li><a href="#总结">总结</a></li>
   </ul>
 </nav>
 	</div>
 </div><div class="content post__content clearfix">
 			<p>本文主要是介绍redis多线程部分的理解，很久以前看过单线程版本的实现，最近看了几篇文章介绍多线程的原理。有些文章只是讲了些理由，看着有点模糊，对多线程为什么能提升效率，以及准确的执行点还是有点模糊。本文主要从源码阅读的角度，来梳理下其调用链，以及根据代码实现来分析多线程的实现原理和背后的设计。</p>
-<h2 id="本文要梳理清楚这几个问题">本文要梳理清楚这几个问题</h2>
-<ol>
-<li>多线程是批量处理不同的client请求？</li>
-<li>多线程提升和使用场景</li>
-<li>多线程具体性能，和内存占用</li>
-</ol>
 <h2 id="多线程批量处理源码分析">多线程批量处理源码分析</h2>
 <p>读请求到来，会插入到  clients_pending_read
 等到下一次主循环 beforeSleep 集中处理 pending_read</p>
@@ -278,12 +270,66 @@ int handleClientsWithPendingReadsUsingThreads(void) {
 <p>atomicGetWithSync(var,value)  &ndash; &lsquo;atomicGet&rsquo; with inter-thread synchronization
 atomicSetWithSync(var,value)  &ndash; &lsquo;atomicSet&rsquo; with inter-thread synchronization</p>
 </blockquote>
-<h2 id="线程模型图">线程模型图</h2>
-<p>待补充</p>
-<h2 id="多线程使用场景">多线程使用场景</h2>
-<p>待补充</p>
-<h2 id="性能参数">性能参数</h2>
-<p>待补充</p>
+<h2 id="iothreadmain-实现补充">IOThreadMain 实现补充</h2>
+<p>IOThreadMain 源码解析</p>
+<pre tabindex="0"><code>void *IOThreadMain(void *myid) {
+    /* The ID is the thread number (from 0 to server.iothreads_num-1), and is
+     * used by the thread to just manipulate a single sub-array of clients. */
+    long id = (unsigned long)myid;
+    char thdname[16];
+
+	// 设置线程名称，方便调试和定位问题
+    snprintf(thdname, sizeof(thdname), &#34;io_thd_%ld&#34;, id);
+    redis_set_thread_title(thdname);
+	// 设置cpu亲和度
+    redisSetCpuAffinity(server.server_cpulist);
+    makeThreadKillable();
+
+    while(1) {
+        /* Wait for start */
+        for (int j = 0; j &lt; 1000000; j++) {
+            if (getIOPendingCount(id) != 0) break;
+        }
+
+		// 每轮检查下 IOPendingCount 如果为0，检查下锁，保证主线程可以通过锁block住io线程
+        /* Give the main thread a chance to stop this thread. */
+        if (getIOPendingCount(id) == 0) {
+			// 创建线程前initThreadedIO中 io_threads_mutex 被lock住
+			// 导致这里阻塞住，直到startThreadedIO执行unlock
+            pthread_mutex_lock(&amp;io_threads_mutex[id]); 
+			pthread_mutex_unlock(&amp;io_threads_mutex[id]);
+            continue;
+        }
+		// 走到这里来 iopendingcount 不应该为0，属于服务器自己的逻辑断言
+        serverAssert(getIOPendingCount(id) != 0);
+
+        /* Process: note that the main thread will never touch our list
+         * before we drop the pending count to 0. */
+        listIter li;
+        listNode *ln;
+        listRewind(io_threads_list[id],&amp;li);
+        while((ln = listNext(&amp;li))) {
+            client *c = listNodeValue(ln);
+            if (io_threads_op == IO_THREADS_OP_WRITE) {
+				// io线程当前全局的操作类型为写数据
+                writeToClient(c,0);
+            } else if (io_threads_op == IO_THREADS_OP_READ) {
+				// io线程当前全局的操作类型为读数据
+                readQueryFromClient(c-&gt;conn);
+            } else {
+				// 走到这里表示主线程没有合理的设定io线程的操作类型，但是分配了任务，io线程无法判断要做什么
+                serverPanic(&#34;io_threads_op value is unknown&#34;);
+            }
+        }
+		// 列表已经访问完了，清空
+        listEmpty(io_threads_list[id]);
+		// 设定标记，通知主线程任务完成
+        setIOPendingCount(id, 0);
+    }
+}
+</code></pre><h2 id="总结">总结</h2>
+<p>redis多线程，解决的是将一次eventloop执行的读写操作并行的放入io线程执行，实际上的命令执行还是在主线程中单线程执行。这样将多个命令的sum(IO1 + IO2 + IO3) 缩减为 max(IO1,IO2,IO3).
+通过原子操作以及内存屏障控制主线程和io线程的同步实现无锁控制。锁本身弱化为，提供主线程block的机智，而不是用于数据交互或者同步。</p>
 		</div>
 	</article>
 </main>
