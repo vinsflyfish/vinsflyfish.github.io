@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lufy&#39;s Blog</title>
+    <link>http://vinsflyfish.github.io/</link>
+    <description>Recent content on Lufy&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 05 Jun 2022 13:05:42 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis 6.0之后的多线程实现源码分析</title>
+      <link>http://vinsflyfish.github.io/posts/redis-multithread-understand/</link>
+      <pubDate>Sun, 05 Jun 2022 13:05:42 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/posts/redis-multithread-understand/</guid>
+      <description>&lt;p&gt;本文主要是介绍redis多线程部分的理解，很久以前看过单线程版本的实现，最近看了几篇文章介绍多线程的原理。有些文章只是讲了些理由，看着有点模糊，对多线程为什么能提升效率，以及准确的执行点还是有点模糊。本文主要从源码阅读的角度，来梳理下其调用链，以及根据代码实现来分析多线程的实现原理和背后的设计。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>关于我的简单介绍</title>
+      <link>http://vinsflyfish.github.io/about/about/</link>
+      <pubDate>Sat, 04 Jun 2022 15:18:41 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/about/about/</guid>
+      <description>主要工作经历 2016年 SJTU研究生毕业 毕业后主要从事游戏后台服务器开发(C++方向),21年离开腾讯，去了一家也是做游戏的公司 能做点web开发，重构过项目的工具网站，替换一套JS为基础的web框架为一套PHP框架，再也没崩过 为游戏引入过cgo版本的httpserver，为c++服务集群提供对外的http服务和承担http代理服务 很早以前做过MFC WINFORM 机器学习,最后选择了服务器后台开发，正式工作后逐步进入游戏服务器后台开发 业余看点开源项目，看些书，偶尔思考总结</description>
+    </item>
+    
+    <item>
+      <title>最近的一些关于分享和思考的一些想法</title>
+      <link>http://vinsflyfish.github.io/ideas/efficient-study/</link>
+      <pubDate>Sat, 04 Jun 2022 12:54:01 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/ideas/efficient-study/</guid>
+      <description>稍微整理下最近看到的一些学习方法 日常学习看书，往往要看几遍才能对概念保持长时间的记忆。这样的方式缺点是耗费时间且缺乏明确的重点。对于比较缺乏时间或者专注力的情况下，通读不那么费神，结果也相对低效。 读到的某篇文章的思想，只有输入，没有输出这样的效率有影响。这两天一直再回顾过去学习过程中的一些场景，在思考没有输出是否形成了过去学习过程中关键性的 输出如何定义： 看完能总结出大纲，关键的知识点要能回顾 能总结出来，并且写下来。 对于比较实践化的内容，最好能转化为小的project，只有实际上项目验证，才能对特别的用法或者边界理解的清楚，本质上是一个较高强度的知识强化过程。 分享的一些经历 写到这里，回顾下工作的</description>
+    </item>
+    
+    <item>
+      <title>复杂系统维护和开发一点思考</title>
+      <link>http://vinsflyfish.github.io/ideas/think-about-cooperate/</link>
+      <pubDate>Fri, 03 Jun 2022 10:37:18 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/ideas/think-about-cooperate/</guid>
+      <description>思考过程尽量避免无关紧要的case，以及短期限制因素。 大型系统开发，改动和设计如果急于赶工期，会出现某个人的改动会带来大的问题，问题的根源可能很简单，但是问题扩散的比较远。 团队管理如何降低这种风险，同时为项目降低风险。如果项目里出现过于自我的人，一旦“偷偷的”修改了某处核心的流程， 而且没有经过充分的测试验证或者没有覆盖好当前的业务场景，那么这一次的修改是相当可怕的。 实际上我们偶尔心血来潮，看到过去写的幼稚代码，顺手给改掉也时有发生。 对于已经足够庞杂的系统，这种习惯可能是致命的。 过去以往某个改动，要经过无数个人的review，一直觉得麻烦，甚至产生了能不改就不改这样怕麻烦的隐藏心里。 在发现其他人</description>
+    </item>
+    
+    <item>
+      <title>Libco 协程栈的切换理解</title>
+      <link>http://vinsflyfish.github.io/posts/thinking-in-libco/</link>
+      <pubDate>Thu, 26 Apr 2018 18:58:35 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/posts/thinking-in-libco/</guid>
+      <description>libco协程切换原理解读及简要使用 以前看过libco一点源码，最近组里面分享了一次协程的原理。花了点功夫，借助一点网上的资料，算是摸清楚了libco协程切换的来龙去脉。libco除了协程的切换还涉及系统hook以及相关工程的封装，篇幅及时间限制，这里不涉及。本篇主要把协程切换的来龙去脉以及原理从个人理解角度介绍下。明白和能说出来讲清楚是两种不同的理解程度，这也是本文的主要目的。 函数调用的原理 linux 程序内存布局 传统linux程序（32bit)拥有4G的虚拟内存区域，高1G的区域供内核使用，剩余的3G内存供程序使用。按段划分，主要分程序段（text segement)、数据段、BSS段。BSS段用于未</description>
+    </item>
+    
+    <item>
+      <title>第一篇博客开启了~</title>
+      <link>http://vinsflyfish.github.io/posts/first-article/</link>
+      <pubDate>Fri, 16 Mar 2018 09:57:55 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/posts/first-article/</guid>
+      <description>开始维护记录最近的学习过程，博客的目的在于加深理解。保持学习，保持更新。或多或少。</description>
+    </item>
+    
+  </channel>
+</rss>

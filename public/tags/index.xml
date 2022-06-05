@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Lufy&#39;s Blog</title>
+    <link>http://vinsflyfish.github.io/tags/</link>
+    <description>Recent content in Tags on Lufy&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 04 Jun 2022 12:54:01 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>其它</title>
+      <link>http://vinsflyfish.github.io/tags/%E5%85%B6%E5%AE%83/</link>
+      <pubDate>Sat, 04 Jun 2022 12:54:01 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/tags/%E5%85%B6%E5%AE%83/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>随想</title>
+      <link>http://vinsflyfish.github.io/tags/%E9%9A%8F%E6%83%B3/</link>
+      <pubDate>Fri, 03 Jun 2022 10:37:18 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/tags/%E9%9A%8F%E6%83%B3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>协程</title>
+      <link>http://vinsflyfish.github.io/tags/%E5%8D%8F%E7%A8%8B/</link>
+      <pubDate>Thu, 26 Apr 2018 18:58:35 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/tags/%E5%8D%8F%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
