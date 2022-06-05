@@ -19,7 +19,7 @@
 <meta itemprop="description" content="本文主要是介绍redis多线程部分的理解，很久以前看过单线程版本的实现，最近看了几篇文章介绍多线程的原理。有些文章只是讲了些理由，看着有点模糊，对多线程为什么能提升效率，以及准确的执行点还是有点模糊。本文主要从源码阅读的角度，来梳理下其调用链，以及根据代码实现来分析多线程的实现原理和背后的设计。"><meta itemprop="datePublished" content="2022-06-05T13:05:42+08:00" />
 <meta itemprop="dateModified" content="2022-06-05T13:05:42+08:00" />
 <meta itemprop="wordCount" content="2515">
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="redis," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -331,6 +331,17 @@ atomicSetWithSync(var,value)  &ndash; &lsquo;atomicSet&rsquo; with inter-thread 
 <p>redis多线程，解决的是将一次eventloop执行的读写操作并行的放入io线程执行，实际上的命令执行还是在主线程中单线程执行。这样将多个命令的sum(IO1 + IO2 + IO3) 缩减为 max(IO1,IO2,IO3).
 通过原子操作以及内存屏障控制主线程和io线程的同步实现无锁控制。锁本身弱化为，提供主线程block的机智，而不是用于数据交互或者同步。</p>
 		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/redis/" rel="tag">redis</a>
+		</li>
+	</ul>
+</div>
+		</footer>
 	</article>
 </main>
 
@@ -370,6 +381,7 @@ atomicSetWithSync(var,value)  &ndash; &lsquo;atomicSet&rsquo; with inter-thread 
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%85%B6%E5%AE%83/" title="其它">其它 (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8D%8F%E7%A8%8B/" title="协程">协程 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%9A%8F%E6%83%B3/" title="随想">随想 (1)</a>
