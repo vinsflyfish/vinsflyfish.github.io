@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Lufy&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 26 Apr 2018 18:58:35 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 05 Jun 2022 13:05:42 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis 6.0之后的多线程实现源码分析</title>
+      <link>http://vinsflyfish.github.io/posts/redis-multithread-understand/</link>
+      <pubDate>Sun, 05 Jun 2022 13:05:42 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/posts/redis-multithread-understand/</guid>
+      <description>&lt;p&gt;本文主要是介绍redis多线程部分的理解，很久以前看过单线程版本的实现，最近看了几篇文章介绍多线程的原理。有些文章只是讲了些理由，看着有点模糊，对多线程为什么能提升效率，以及准确的执行点还是有点模糊。本文主要从源码阅读的角度，来梳理下其调用链，以及根据代码实现来分析多线程的实现原理和背后的设计。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Libco 协程栈的切换理解</title>
       <link>http://vinsflyfish.github.io/posts/thinking-in-libco/</link>

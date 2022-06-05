@@ -2,10 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://vinsflyfish.github.io/about/</loc>
-    <lastmod>2022-06-04T15:18:41+08:00</lastmod>
-  </url><url>
     <loc>http://vinsflyfish.github.io/</loc>
+    <lastmod>2022-06-05T13:05:42+08:00</lastmod>
+  </url><url>
+    <loc>http://vinsflyfish.github.io/posts/</loc>
+    <lastmod>2022-06-05T13:05:42+08:00</lastmod>
+  </url><url>
+    <loc>http://vinsflyfish.github.io/posts/redis-multithread-understand/</loc>
+    <lastmod>2022-06-05T13:05:42+08:00</lastmod>
+  </url><url>
+    <loc>http://vinsflyfish.github.io/about/</loc>
     <lastmod>2022-06-04T15:18:41+08:00</lastmod>
   </url><url>
     <loc>http://vinsflyfish.github.io/about/about/</loc>
@@ -30,9 +36,6 @@
     <lastmod>2022-06-03T10:37:18+08:00</lastmod>
   </url><url>
     <loc>http://vinsflyfish.github.io/posts/thinking-in-libco/</loc>
-    <lastmod>2018-04-26T18:58:35+08:00</lastmod>
-  </url><url>
-    <loc>http://vinsflyfish.github.io/posts/</loc>
     <lastmod>2018-04-26T18:58:35+08:00</lastmod>
   </url><url>
     <loc>http://vinsflyfish.github.io/tags/%E5%8D%8F%E7%A8%8B/</loc>
