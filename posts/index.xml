@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Lufy&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 05 Jun 2022 13:05:42 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Jul 2022 21:48:34 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43;和lua层交互的一些设计回顾</title>
+      <link>http://vinsflyfish.github.io/posts/cpp_interact_with_lua/</link>
+      <pubDate>Sun, 17 Jul 2022 21:48:34 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/posts/cpp_interact_with_lua/</guid>
+      <description>&lt;p&gt;项目中通过c++和lua的交互，将大量的业务逻辑交给了非专业的编程人员开发。结合工具的强大的导出能力，将相当大的一部分和玩法和玩法设计相关的工作,交给了技术策划和使用工具的策划。本文稍微回顾下这种设计，以及它实际上和以往c++调用脚本做事情非常不一样的思路。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Redis 6.0之后的多线程实现源码分析</title>
       <link>http://vinsflyfish.github.io/posts/redis-multithread-understand/</link>

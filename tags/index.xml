@@ -6,7 +6,16 @@
     <description>Recent content in Tags on Lufy&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 05 Jun 2022 13:05:42 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Jul 2022 21:48:34 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>lua</title>
+      <link>http://vinsflyfish.github.io/tags/lua/</link>
+      <pubDate>Sun, 17 Jul 2022 21:48:34 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/tags/lua/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>redis</title>
       <link>http://vinsflyfish.github.io/tags/redis/</link>
