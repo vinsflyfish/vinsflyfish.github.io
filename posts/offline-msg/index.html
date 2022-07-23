@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>关于现网问题补偿修复的一些想法 - Lufy&#39;s Blog</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="关于现网问题补偿修复的一些想法" />
+<meta property="og:description" content="现网发生bug，导致玩家流程卡住，或者物品丢失补偿，都需要在项目开发和设计阶段进行充分的设计和思考。本文介绍一些实际项目中用到的思路和一点思考。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://vinsflyfish.github.io/posts/offline-msg/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-23T12:18:26+08:00" />
+<meta property="article:modified_time" content="2022-07-23T12:18:26+08:00" />
+
+
+		<meta itemprop="name" content="关于现网问题补偿修复的一些想法">
+<meta itemprop="description" content="现网发生bug，导致玩家流程卡住，或者物品丢失补偿，都需要在项目开发和设计阶段进行充分的设计和思考。本文介绍一些实际项目中用到的思路和一点思考。"><meta itemprop="datePublished" content="2022-07-23T12:18:26+08:00" />
+<meta itemprop="dateModified" content="2022-07-23T12:18:26+08:00" />
+<meta itemprop="wordCount" content="2648">
+<meta itemprop="keywords" content="发货服务,异步消息服务器,物品补发,游戏," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-131330078-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="Lufy&#39;s Blog" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">Lufy&#39;s Blog</div>
+					<div class="logo__tagline">独立的思考着，尝试着能看到一点点未来</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/posts/">
+				
+				<span class="menu__text">技术</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/ideas/">
+				
+				<span class="menu__text">想法</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/study/">
+				
+				<span class="menu__text">学习</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">关于</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">关于现网问题补偿修复的一些想法</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-07-23T12:18:26&#43;08:00">2022-07-23</time></div></div>
+		</header>
+		
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#物品补发及补发修复">物品补发及补发修复</a>
+      <ul>
+        <li><a href="#异步消息服务器状态讨论">异步消息服务器状态讨论</a></li>
+        <li><a href="#异步消息的时效性">异步消息的时效性</a></li>
+        <li><a href="#基于邮件的实现讨论">基于邮件的实现讨论</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码热更">代码热更</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+	</div>
+</div><div class="content post__content clearfix">
+			<p>现网发生bug，导致玩家流程卡住，或者物品丢失补偿，都需要在项目开发和设计阶段进行充分的设计和思考。本文介绍一些实际项目中用到的思路和一点思考。</p>
+<h2 id="物品补发及补发修复">物品补发及补发修复</h2>
+<p>物品补发常用的方式有:</p>
+<ol>
+<li>
+<p>邮件系统。
+好处是玩家可以不用在线也不影响正在线的玩家。邮件的拉取可以在玩家登录时，也可以在特定的时间，如回到主界面，取决于业务的考量。邮件的领取，提供主动领取和自动领取。自动领取用于做一些不需要玩家感知的事情，如某个用于扭转玩家状态操作指令。缺点是邮件领取本身的可靠性需要权衡，在极端情况下重复领取或者领取完数据未存档导致的异常，后面单独尝试理解下这里的case。</p>
+</li>
+<li>
+<p>发货服务。
+发货服务位于业务集群，本身可以直接操作玩家数据库，查询、修改玩家数据。发货服务一般设计上设计为无状态服务，对外部而言就当成一次接口调用。无状态服务的缺点是，如果多点写会产生数据竞争，要求平台多个业务之间对相同账号的操作需要收敛到相同的服务。避免多个操作发货业务同时进行，如果都对同一个账户操作，会导致多点写的问题。多点写本身可以在业务层检测到，部分数据库提供乐观锁的服务，修改一次数据，数据版本号会提示，如果发生了同时写，会有一个失败。失败稍后重试，问题就能得到解决。</p>
+</li>
+</ol>
+<p>发货服务，目前在业务侧见过的实现方式大致有两种。</p>
+<p>一种是提供直接加载并且修改玩家数据的能力，一旦数据被修改在线玩家的数据保存就会失败，会导致踢线。所以这种发货一般选择在凌晨玩家相对少的场合。这种方式的改良版本是如果玩家在线，直接将消息发送给玩家对应的逻辑服务，由逻辑服务直接操作数据，这样在线玩家的影响就会小很多。缺点是无法保证消息的可靠性，一旦玩家突然下线或者玩家所在的逻辑服宕机消息就丢了。而消息丢失对发货服务而言是一种难以决断的状态，重试还是认为成功都是模棱两可的问题。所以这种改良对于重要的消息来说还是明显不足，对于一些不太重要的消息可以通过这种方式避免对玩家踢线。</p>
+<p>第二种是增加间接层。虽然发货服务是无状态的，但是间接层可以收敛到有状态。间接层取个更通俗的名称叫异步消息服务器。这里异步是指不需要立刻被玩家感知到，游戏逻辑服务可以按需拉取。拉取相对于发送问题稍微简化了一点，实际上异步消息服务器逻辑相对较少，主要是收敛数据，避免多点读写的问题，查询和修改，没有特别重的逻辑，改动也比较少，服务的可靠性更高一点。收敛的服务缺点也很明显，天然的单点。一旦机器宕机意味着未存档的数据丢失。</p>
+<p>针对异步消息服务器可靠性，降低单点故障，可以简单的支持一下幂等性。本次的消息附带上一个唯一的票据，消息本身可以是多个消息的合包，取决于本次发货是单个还是多个。补充一下，这里讨论的发货，均以单个玩家为单位。异步消息服务器收到消息后，会同时保存该票据和消息，票据严格来说也属于消息的一部分。如果数据成功的存档，宕机或者内部网络中断，导致发货服没有收到回包。这时发货服可以选择一定时间后重试，当第二次异步消息服务器收到该消息时，立马检查到消息已经存档了，可以明确的告诉平台成功了，而且新来的消息不用再次处理。这里有个有意思的边界，如果这个时候玩家过来拉取异步消息服务器，时间不会读到未存档的数据。本质上异步消息服务器是一个无状态的服务。发货消息先到来，进行存档。玩家查询消息后来，会从db直接读取。虽然性能差一点，但是保证了读取到的数据是存档过的。避免玩家消费了未存档的数据，随后在异步消息服务存档前宕机，导致发货服再次发送数据，玩家会消费多次。</p>
+<h3 id="异步消息服务器状态讨论">异步消息服务器状态讨论</h3>
+<p>异步消息有无状态，取决于两个重要的因素，一是性能，如果修改和读取都很频繁，无状态相对要差很多。二是承载，有状态需要把状态都缓存在内存中，虽然可以考虑LRU节省不少内存，频繁的淘汰和加载本身也会有问题。</p>
+<p>如果在承载足够满足的情况下，读写频率相对较高，此时要用有状态的异步消息服务器，该如何设计？</p>
+<p>如果数据正在存档中，读取消息来了，是直接返回数据还是等待存档完返回。等待能保证只消费存档的数据，避免中间消费中间数据导致不一致。</p>
+<p>第二种设计是采用版本号的机制。修改一次数据，版本号提升1，这个版本号不需要数据库支持，逻辑层保存即可，作为数据的一部分进行存档。当读取消息到来时，立刻读取最新的数据带着版本号回包。需要在业务层下次读取时，判定下刚读取的数据和历史读到的最大版本号对比，业务层做了兼容。这个设计解决了业务&lt;-&gt;异步消息服务 之间的一个即使存档丢失也不会重复消费的问题。</p>
+<p>第二种设计对于发货服务而言却有一点问题。发货服务要保证数据能通过重试确认发到异步消息服务器。考虑前面提到过的一个极端情况：</p>
+<pre tabindex="0"><code>发货消息 -&gt; 异步消息服务器内存更新 -&gt; 业务侧读取内存消息 -&gt; 异步消息服务器宕机 （此时业务已经消费了中间态的消息) -&gt; 发货服务收到回包超时
+</code></pre><p>此时发货服务，再次重试发送消息:</p>
+<pre tabindex="0"><code>重试的发货消息 -&gt; 异步消息内存更新 -&gt; 异步消息存档（可选）-&gt; 业务侧读取消息
+</code></pre><p>这里有个很麻烦的事情，如果丢失了多个版本的数据，业务侧以消费的版本号可能高于现在异步消息内存中的版本号。</p>
+<p>有状态服务带来的问题比较多，异步消息机制本身属于一个非高频操作。采用无状态的服务，实现上更简单一点。这一节主要是想对这种case下的有状态服务推演，以及从消息的产生和消费的渠道保证可靠性分析。</p>
+<h3 id="异步消息的时效性">异步消息的时效性</h3>
+<p>如果希望业务在有异步消息是尽量能感知，可以在异步消息服务存档存档时，发送一个新消息到来的通知给业务，业务触发一次拉取，这样就不会在登录这种感知比较弱的场景。特别是对于修复紧急的问题，又不希望玩家重登。</p>
+<h3 id="基于邮件的实现讨论">基于邮件的实现讨论</h3>
+<p>邮件和离线消息非常接近。邮件一般意味着客户端是有感知的，对于没有异步消息服务器的业务。可以用非展示的邮件，来实现和异步消息一样的功能，属于一点小trick。</p>
+<h2 id="代码热更">代码热更</h2>
+<p>目前代码热更是一种相对简单的实现，利用服务定时的加载指定的so文件，将指定的函数替换成so中的新函数。修改代码段的属性，将旧函数进入的代码调整为跳转到新函数的指令。约束是对非内联和宏函数才有用，需要函数体本身大于13字节。这种热更流程上更麻烦一点，主要靠开发完成。而前面提到的发货的方式，则只需要运营就可以完成。</p>
+<h2 id="总结">总结</h2>
+<p>采用异步消息服务器的方式，利用发货平台的ticket实现幂等。基于无状态的服务，保证业务侧消费的是存档数据，业务侧保存已消费的数据信息，避免重复消费。发货的方式依赖程序已经支持了特定的消息来放过玩家的某个状态保证流程。热更的方式相对而言解决更复杂的问题，但是操作更麻烦一点。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E5%8F%91%E8%B4%A7%E6%9C%8D%E5%8A%A1/" rel="tag">发货服务</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">异步消息服务器</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E7%89%A9%E5%93%81%E8%A1%A5%E5%8F%91/" rel="tag">物品补发</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/shared_ptr_implement/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">shared_ptr 源码解析</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="http://vinsflyfish.github.io/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/offline-msg/">关于现网问题补偿修复的一些想法</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/shared_ptr_implement/">shared_ptr 源码解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/cpp_interact_with_lua/">C&#43;&#43;和lua层交互的一些设计回顾</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/redis-multithread-understand/">Redis 6.0之后的多线程实现源码分析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/ideas/efficient-study/">最近的一些关于分享和思考的一些想法</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/thinking-in-libco/">Libco 协程栈的切换理解</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/first-article/">第一篇博客开启了~</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/c&#43;&#43;/" title="c&#43;&#43;">c&#43;&#43; (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lua/" title="lua">lua (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%85%B6%E5%AE%83/" title="其它">其它 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8D%8F%E7%A8%8B/" title="协程">协程 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8F%91%E8%B4%A7%E6%9C%8D%E5%8A%A1/" title="发货服务">发货服务 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="异步消息服务器">异步消息服务器 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%B8%B8%E6%88%8F/" title="游戏">游戏 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%89%A9%E5%93%81%E8%A1%A5%E5%8F%91/" title="物品补发">物品补发 (1)</a>
+	</div>
+</div>
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/vinsflyfish" target="_blank">
+				<svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:vins.napoleon@gmail.com">
+				<svg class="widget-social__link-icon icon icon-mail" width="24" height="24" viewBox="0 0 416 288"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>vins.napoleon@gmail.com</span>
+			</a>
+		</div>
+
+		
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2022 Lufy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

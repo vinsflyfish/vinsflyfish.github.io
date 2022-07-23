@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>异步消息服务器 on Lufy&#39;s Blog</title>
+    <link>http://vinsflyfish.github.io/tags/%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+    <description>Recent content in 异步消息服务器 on Lufy&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 23 Jul 2022 12:18:26 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/tags/%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1%E5%99%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>关于现网问题补偿修复的一些想法</title>
+      <link>http://vinsflyfish.github.io/posts/offline-msg/</link>
+      <pubDate>Sat, 23 Jul 2022 12:18:26 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/posts/offline-msg/</guid>
+      <description>&lt;p&gt;现网发生bug，导致玩家流程卡住，或者物品丢失补偿，都需要在项目开发和设计阶段进行充分的设计和思考。本文介绍一些实际项目中用到的思路和一点思考。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

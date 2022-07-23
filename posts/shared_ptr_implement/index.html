@@ -4,22 +4,22 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>C&#43;&#43;和lua层交互的一些设计回顾 - Lufy&#39;s Blog</title>
+	<title>shared_ptr 源码解析 - Lufy&#39;s Blog</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="C&#43;&#43;和lua层交互的一些设计回顾" />
-<meta property="og:description" content="项目中通过c&#43;&#43;和lua的交互，将大量的业务逻辑交给了非专业的编程人员开发。结合工具的强大的导出能力，将相当大的一部分和玩法和玩法设计相关的工作,交给了技术策划和使用工具的策划。本文稍微回顾下这种设计，以及它实际上和以往c&#43;&#43;调用脚本做事情非常不一样的思路。" />
+		<meta property="og:title" content="shared_ptr 源码解析" />
+<meta property="og:description" content="本文主要简单的备忘下，shared_ptr 一些简单的介绍。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://vinsflyfish.github.io/posts/cpp_interact_with_lua/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-07-17T21:48:34+08:00" />
-<meta property="article:modified_time" content="2022-07-17T21:48:34+08:00" />
+<meta property="og:url" content="http://vinsflyfish.github.io/posts/shared_ptr_implement/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-18T10:56:13+08:00" />
+<meta property="article:modified_time" content="2022-07-18T10:56:13+08:00" />
 
 
-		<meta itemprop="name" content="C&#43;&#43;和lua层交互的一些设计回顾">
-<meta itemprop="description" content="项目中通过c&#43;&#43;和lua的交互，将大量的业务逻辑交给了非专业的编程人员开发。结合工具的强大的导出能力，将相当大的一部分和玩法和玩法设计相关的工作,交给了技术策划和使用工具的策划。本文稍微回顾下这种设计，以及它实际上和以往c&#43;&#43;调用脚本做事情非常不一样的思路。"><meta itemprop="datePublished" content="2022-07-17T21:48:34+08:00" />
-<meta itemprop="dateModified" content="2022-07-17T21:48:34+08:00" />
-<meta itemprop="wordCount" content="1716">
-<meta itemprop="keywords" content="lua," />
+		<meta itemprop="name" content="shared_ptr 源码解析">
+<meta itemprop="description" content="本文主要简单的备忘下，shared_ptr 一些简单的介绍。"><meta itemprop="datePublished" content="2022-07-18T10:56:13+08:00" />
+<meta itemprop="dateModified" content="2022-07-18T10:56:13+08:00" />
+<meta itemprop="wordCount" content="316">
+<meta itemprop="keywords" content="c&#43;&#43;," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -100,10 +100,10 @@ if (!doNotTrack) {
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">C&#43;&#43;和lua层交互的一些设计回顾</h1>
+			<h1 class="post__title">shared_ptr 源码解析</h1>
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-07-17T21:48:34&#43;08:00">2022-07-17</time></div></div>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-07-18T10:56:13&#43;08:00">2022-07-18</time></div></div>
 		</header>
 		
 <div class="post__toc toc">
@@ -111,29 +111,64 @@ if (!doNotTrack) {
 	<div class="toc__menu">
 		<nav id="TableOfContents">
   <ul>
-    <li><a href="#c和lua交互的设计思路">C++和lua交互的设计思路</a></li>
-    <li><a href="#写在最后">写在最后</a></li>
+    <li><a href="#智能指针的内存布局">智能指针的内存布局</a>
+      <ul>
+        <li><a href="#make_shared-构造时的内存布局">make_shared 构造时的内存布局</a></li>
+      </ul>
+    </li>
+    <li><a href="#ebo">EBO</a></li>
   </ul>
 </nav>
 	</div>
 </div><div class="content post__content clearfix">
-			<p>项目中通过c++和lua的交互，将大量的业务逻辑交给了非专业的编程人员开发。结合工具的强大的导出能力，将相当大的一部分和玩法和玩法设计相关的工作,交给了技术策划和使用工具的策划。本文稍微回顾下这种设计，以及它实际上和以往c++调用脚本做事情非常不一样的思路。</p>
-<h2 id="c和lua交互的设计思路">C++和lua交互的设计思路</h2>
-<p>跨语言调用，是在某个点执行特定的脚本以实现跨语言的调用，在c++中执行脚本逻辑。这种执行的交互接口如何设计，通过怎样的接口让脚本的编写者几乎不用过多的关注上层实现。我们这里采用解耦方式是通过event。脚本层先注册每个event的执行函数，c++层发生特定的行为时产生event传递给脚本层处理，脚本层只需要关注发生了什么事情，事情的具体内容通过event参数传递过来。</p>
-<pre tabindex="0"><code>[C++ logic] -- event -&gt;  [lua function]
-</code></pre><p>用事件而不是函数调用的方式，将两种语言的之间的交互耦合降到最低。事件使得接口简单且固定，这点相对传统的回调还是有比较大的优势。而且lua层只需要关注发生了什么，要做什么。实际上对为什么发生都不用过多的关注，无需知道上层的实现细节。</p>
-<p>某些需要成对出现的event如果没有处理好，就会导致异常。以某个行为start为例，如果没有对应的stop或者finish，lua逻辑很难处理清理和结束。没有合理的清理结束，甚至会发生重入的问题。实践上lua本身属于非专业编码人员的工作，对重入的防护是无法做出很好保证，他们通常只做正确的事，对于意外的处理相当缺乏，而且实践看来，这里无法要求过高。event还有个问题，如果玩法以来特定的event，这个event如果无法触发，玩法会卡住。甚至如果脚本设置了存档和淘汰相关的逻辑，导致特定的事件到来时，已经无法传递给脚本了。脚本下次加载时，可能再也无法获得对应的event了。只能经由其他event，然后执行状态检查，检查某个重要的event是否发生了，因为event丢失，这里应该对应的是该event带来的特定状态。</p>
-<p>回调的相对好处是，只要c++业务层保证各时点都能执行，完整的时点接口提供健壮的 onStart / onStop 保证 lua层业务的初始化和清理得以正常。如果事情变成event，就需要lua层关注每个event的配套，一旦漏写，或者不知道event具体的产生意味着什么，就会出问题。回调会有更强烈的语义，用错这点上会好一点。当然回调也无法规避很多问题，这里不展开。</p>
-<p>值得注意这里的lua，实际上只是在c++上套一层壳。只是使用lua逻辑组合了c++层提供的lua接口。其完整的交互流程为：</p>
-<pre tabindex="0"><code>[C++ LOGIC] -- EVENT -&gt; lua script 
-						[EVENT 1] LUA function1   -&gt; call sets of c++ register interface  -&gt; [C++ FUNCTION]
-						[EVENT 2] LUA function2
-						[EVENT 3] LUA function3
-</code></pre><p>事实上整个lua就变成了各种事件驱动的回调函数。event最终执行的还是c++代码，c++代码本身可能是公共的业务接口，又有可能再次触发event。甚至多个event的回调可能会增删某些数据，会导致各种问题。而且经历了event特别是跨语言的多层调用，实际上很难完全控制。迭代器失效以及死循环都是比较麻烦的事情。event会随着项目和玩法的迭代快速的扩张，这种问题又会变得无法避免和需要很小心的控制。</p>
-<h2 id="写在最后">写在最后</h2>
-<p>目前通过c++层调用lua脚本做了相当大的一部分业务逻辑，解放了后台开发。不过设计上也确实存在不少问题。一个核心原因是event本身不完备，核心玩法其实比较需要完备的event，如开始和结束。但是玩法层本身无法保证一定有结束。会带来一些问题。这种无法保证可以在实现上尽量避免。我们一旦对event做出了更多的承诺，lua层的逻辑出问题的概率就少很多。event做出承诺，本身和玩法或者游戏本身的特点有关，也是需要权衡。</p>
-<p>还有最大的一个问题是，c++ -&gt; lua  -&gt; c++ 这样的三层调用，还有可能会再次产生event，甚至有可能产生递归死循环。这种间接的调用随着系统和业务规模的复杂化，会无法避免的导致一些问题。接口实现上需要控制的足够小心，才能降低问题的概率。相对风险来说，目前看收益更大。实际上出现风险lua还可以热更掉，也并非很可怕的事情。</p>
-<p>本文主要是回顾下这种设计，因为业务的敏感性，也不展开了。主要是这种思路还是有不少启发。最近有点忙，强迫自己写点分享，后面再修整下。此刻主要是介绍一些思路，过于潦草。</p>
+			<p>本文主要简单的备忘下，shared_ptr 一些简单的介绍。</p>
+<h2 id="智能指针的内存布局">智能指针的内存布局</h2>
+<p>shared_ptr 内存布局为：</p>
+<pre tabindex="0"><code>|-------------------------------|              -------------
+|element_type* _M_ptr           | -----------&gt; |data fileld| &lt;-----------|
+|                               |              -------------             |
+|__shared_count&lt;_Lp&gt; _M_refcount| ---|                                   |
+|-------------------------------|    |               |-------------|     |
+						             |_M_pi -------&gt; |_M_use_count |     |
+									                 |_M_weak_count|     |
+													 |_M_ptr       | ----|
+											         |-------------|
+</code></pre><h3 id="make_shared-构造时的内存布局">make_shared 构造时的内存布局</h3>
+<p>这里源码_Tp 实际上不是代表指针而是正常的数据类型。make_shared 经由 sp_counted_ptr_inplace 构造</p>
+<p>内存布局展开基类及 _Impl 为：</p>
+<pre tabindex="0"><code>|---------------|
+| _M_use_count  |
+| _M_weak_count |
+|---------------|
+| _M_impl       | 派生类数据 大小为 _Tp 存储真实数据
+----------------
+</code></pre><p>完整的内存布局为：</p>
+<pre tabindex="0"><code>|-------------------------------|              
+|element_type* _M_ptr           | -------------------------------------|
+|__shared_count&lt;_Lp&gt; _M_refcount| ---- _M_pi  ----&gt;|--------------     |
+|-------------------------------|                  | _M_use_count |    |
+												   | _M_weak_count|    |
+												   | _M_impl(_Tp) |&lt;---|
+												   ----------------
+</code></pre><h2 id="ebo">EBO</h2>
+<p>虚基类优化技术</p>
+<pre tabindex="0"><code>class Empty
+{
+};
+</code></pre><p>为了区分不同的类，实际上空的class，至少占用一个字节，使用empty的两种case,</p>
+<pre tabindex="0"><code>class Data1
+{
+		private:
+				Empty data_;
+				int a_;
+};
+
+class Data2 : private Empty
+{
+		private:
+				int a_;
+};
+</code></pre><p>使用EBO之后 Data2的size，等效于int alignment对齐后的size.</p>
 		</div>
 		<footer class="post__footer">
 			
@@ -141,7 +176,7 @@ if (!doNotTrack) {
 	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
 		<li class="tags__item">
-			<a class="tags__link btn" href="/tags/lua/" rel="tag">lua</a>
+			<a class="tags__link btn" href="/tags/c&#43;&#43;/" rel="tag">c&#43;&#43;</a>
 		</li>
 	</ul>
 </div>
@@ -152,15 +187,15 @@ if (!doNotTrack) {
 
 <nav class="pager flex">
 	<div class="pager__item pager__item--prev">
-		<a class="pager__link" href="/posts/redis-multithread-understand/" rel="prev">
+		<a class="pager__link" href="/posts/cpp_interact_with_lua/" rel="prev">
 			<span class="pager__subtitle">«&thinsp;Previous</span>
-			<p class="pager__title">Redis 6.0之后的多线程实现源码分析</p>
+			<p class="pager__title">C&#43;&#43;和lua层交互的一些设计回顾</p>
 		</a>
 	</div>
 	<div class="pager__item pager__item--next">
-		<a class="pager__link" href="/posts/shared_ptr_implement/" rel="next">
+		<a class="pager__link" href="/posts/offline-msg/" rel="next">
 			<span class="pager__subtitle">Next&thinsp;»</span>
-			<p class="pager__title">shared_ptr 源码解析</p>
+			<p class="pager__title">关于现网问题补偿修复的一些想法</p>
 		</a>
 	</div>
 </nav>

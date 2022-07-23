@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>c&#43;&#43; on Lufy&#39;s Blog</title>
+    <link>http://vinsflyfish.github.io/tags/c&#43;&#43;/</link>
+    <description>Recent content in c&#43;&#43; on Lufy&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 18 Jul 2022 10:56:13 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>shared_ptr 源码解析</title>
+      <link>http://vinsflyfish.github.io/posts/shared_ptr_implement/</link>
+      <pubDate>Mon, 18 Jul 2022 10:56:13 +0800</pubDate>
+      
+      <guid>http://vinsflyfish.github.io/posts/shared_ptr_implement/</guid>
+      <description>&lt;p&gt;本文主要简单的备忘下，shared_ptr 一些简单的介绍。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
