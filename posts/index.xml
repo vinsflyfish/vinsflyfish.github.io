@@ -6,34 +6,7 @@
     <description>Recent content in Posts on Lufy&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 23 Jul 2022 12:18:26 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>关于现网问题补偿修复的一些想法</title>
-      <link>http://vinsflyfish.github.io/posts/offline-msg/</link>
-      <pubDate>Sat, 23 Jul 2022 12:18:26 +0800</pubDate>
-      
-      <guid>http://vinsflyfish.github.io/posts/offline-msg/</guid>
-      <description>&lt;p&gt;现网发生bug，导致玩家流程卡住，或者物品丢失补偿，都需要在项目开发和设计阶段进行充分的设计和思考。本文介绍一些实际项目中用到的思路和一点思考。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>shared_ptr 源码解析</title>
-      <link>http://vinsflyfish.github.io/posts/shared_ptr_implement/</link>
-      <pubDate>Mon, 18 Jul 2022 10:56:13 +0800</pubDate>
-      
-      <guid>http://vinsflyfish.github.io/posts/shared_ptr_implement/</guid>
-      <description>&lt;p&gt;本文主要简单的备忘下，shared_ptr 一些简单的介绍。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>C&#43;&#43;和lua层交互的一些设计回顾</title>
-      <link>http://vinsflyfish.github.io/posts/cpp_interact_with_lua/</link>
-      <pubDate>Sun, 17 Jul 2022 21:48:34 +0800</pubDate>
-      
-      <guid>http://vinsflyfish.github.io/posts/cpp_interact_with_lua/</guid>
-      <description>&lt;p&gt;项目中通过c++和lua的交互，将大量的业务逻辑交给了非专业的编程人员开发。结合工具的强大的导出能力，将相当大的一部分和玩法和玩法设计相关的工作,交给了技术策划和使用工具的策划。本文稍微回顾下这种设计，以及它实际上和以往c++调用脚本做事情非常不一样的思路。&lt;/p&gt;</description>
-    </item>
-    
+    <lastBuildDate>Sun, 05 Jun 2022 13:05:42 +0800</lastBuildDate><atom:link href="http://vinsflyfish.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Redis 6.0之后的多线程实现源码分析</title>
       <link>http://vinsflyfish.github.io/posts/redis-multithread-understand/</link>
